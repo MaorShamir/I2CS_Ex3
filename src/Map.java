@@ -213,7 +213,7 @@ public class Map implements Map2D {
 	public Map2D allDistance(Pixel2D start, int obsColor) {
 		/////// add your code below ///////
         if (start == null) return null;
-        if (getPixel(start) == obsColor) return null;
+        //if (getPixel(start) == obsColor) return null;
         int w = getWidth(); int h = getHeight();
         // new distance map
         int[][] dist = new int[h][w];

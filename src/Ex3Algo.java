@@ -40,11 +40,33 @@ public class Ex3Algo implements PacManAlgo{
 			System.out.println("Pacman coordinate: "+pos);
 			GhostCL[] ghosts = game.getGhosts(code);
 			printGhosts(ghosts);
-			int up = Game.UP, left = Game.LEFT, down = Game.DOWN, right = Game.RIGHT;
-		}
-		_count++;
-		int dir = randomDir();
-		return dir;
+        }
+        int blue = Game.getIntColor(Color.BLUE, 0);
+
+        int[][] board = game.getGame(0);
+        String pos = game.getPos(0).toString(); // pacman position
+        String[] p = pos.split(",");
+        int x = Integer.parseInt(p[0]); int y = Integer.parseInt(p[1]); //extracting my position from string
+
+        Map2D map = new Map(board);
+        Index2D pixel = new Index2D(x,y);
+
+        //Map2D dist = map.allDistance(pixel,blue); // start = pixel, obsColor = blue
+        Pixel2D closestPink = closest_pink(map, pixel); // search for the closest pink pixel
+        Pixel2D[] path = map.shortestPath(pixel,closestPink,blue);
+        if (path == null|| path.length < 2) return randomDir();
+        Pixel2D next = path[1];
+
+        int dx = next.getX() - pixel.getX();
+        int dy = next.getY() - pixel.getY();
+
+        int up = Game.UP, left = Game.LEFT, down = Game.DOWN, right = Game.RIGHT;
+        if (dx == 1) return right;
+        if (dx == -1) return left;
+        if (dy == 1) return down;
+        if (dy == -1) return up;
+        _count++;
+		return 0;
 	}
 	private static void printBoard(int[][] b) {
 		for(int y =0;y<b[0].length;y++){
@@ -66,4 +88,26 @@ public class Ex3Algo implements PacManAlgo{
 		int ind = (int)(Math.random()*dirs.length);
 		return dirs[ind];
 	}
+    // 3 main cases in the game:
+    public static Pixel2D closest_pink(Map2D map, Pixel2D pixel) { // pacman wants to eat pink pixels
+        Pixel2D ans = null;
+        int minDist = Integer.MAX_VALUE;
+        int pink = Game.getIntColor(Color.PINK, 0);
+        for (int x=0;x< map.getWidth();x++){
+            for (int y=0; y< map.getHeight();y++){
+                if (map.getPixel(x,y) == pink){
+                    int d = Math.abs(pixel.getX() - x) + Math.abs(pixel.getY() - y); // distance
+                    if (d < minDist) {
+                        minDist = d;
+                        ans = new Index2D(x, y);
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+    private static int chase() { // pacman wants to chase small monsters
+        return 0;}
+    private static int runaway() { // pacman wants to runaway from the monsters
+        return 0; }
 }
