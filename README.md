@@ -9,3 +9,6 @@ so I will set the condition: if pacman's distance from monster is smaller then 8
 
 if pacman eats green dot, monsters become eatable(smaller) for many seconds. if pacman's distance from small monster is less than 5, pacman chase monster.
 if pacman eats monster when it's small, the monster disapear. 
+
+
+<img width="871" height="1013" alt="image" src="https://github.com/user-attachments/assets/f0d382f7-d54f-47d8-b753-17cea1d515e5" />
